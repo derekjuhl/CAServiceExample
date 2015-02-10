@@ -1,0 +1,2 @@
+This code provides an example of a simple WCF service. It uses ADO Entities to connec to the CommunityAssist database. the SQL For this database is available at
+http://www.spconger.com/school/ITC222/CommunityAssist.txt --although this is a somewhat older version of the database and differs in some details.
