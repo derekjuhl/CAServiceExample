@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CommunityAssistModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CommunityService">
+          <Key>
+            <PropertyRef Name="ServiceKey" />
+          </Key>
+          <Property Name="ServiceKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="255" />
+          <Property Name="ServiceDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="ServiceMaximum" Type="money" />
+          <Property Name="ServiceLifetimeMaximum" Type="money" />
+        </EntityType>
+        <EntityType Name="ServiceGrant">
+          <Key>
+            <PropertyRef Name="GrantKey" />
+          </Key>
+          <Property Name="GrantKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GrantAmount" Type="money" />
+          <Property Name="GrantDate" Type="datetime" />
+          <Property Name="PersonKey" Type="int" />
+          <Property Name="ServiceKey" Type="int" />
+          <Property Name="EmployeeKey" Type="int" />
+          <Property Name="GrantReviewDate" Type="date" />
+          <Property Name="GrantApprovalStatus" Type="nvarchar" MaxLength="10" />
+          <Property Name="GrantNeedExplanation" Type="nvarchar(max)" />
+          <Property Name="GrantAllocation" Type="money" />
+        </EntityType>
+        <Association Name="FK__ServiceGr__Servi__32E0915F">
+          <End Role="CommunityService" Type="Self.CommunityService" Multiplicity="0..1" />
+          <End Role="ServiceGrant" Type="Self.ServiceGrant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommunityService">
+              <PropertyRef Name="ServiceKey" />
+            </Principal>
+            <Dependent Role="ServiceGrant">
+              <PropertyRef Name="ServiceKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CommunityAssistModelStoreContainer">
+          <EntitySet Name="CommunityService" EntityType="Self.CommunityService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceGrant" EntityType="Self.ServiceGrant" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ServiceGr__Servi__32E0915F" Association="Self.FK__ServiceGr__Servi__32E0915F">
+            <End Role="CommunityService" EntitySet="CommunityService" />
+            <End Role="ServiceGrant" EntitySet="ServiceGrant" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CommunityAssistModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CommunityService">
+          <Key>
+            <PropertyRef Name="ServiceKey" />
+          </Key>
+          <Property Name="ServiceKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceMaximum" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ServiceLifetimeMaximum" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="ServiceGrants" Relationship="Self.FK__ServiceGr__Servi__32E0915F" FromRole="CommunityService" ToRole="ServiceGrant" />
+        </EntityType>
+        <EntityType Name="ServiceGrant">
+          <Key>
+            <PropertyRef Name="GrantKey" />
+          </Key>
+          <Property Name="GrantKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GrantAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="GrantDate" Type="DateTime" Precision="3" />
+          <Property Name="PersonKey" Type="Int32" />
+          <Property Name="ServiceKey" Type="Int32" />
+          <Property Name="EmployeeKey" Type="Int32" />
+          <Property Name="GrantReviewDate" Type="DateTime" Precision="0" />
+          <Property Name="GrantApprovalStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="GrantNeedExplanation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GrantAllocation" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="CommunityService" Relationship="Self.FK__ServiceGr__Servi__32E0915F" FromRole="ServiceGrant" ToRole="CommunityService" />
+        </EntityType>
+        <Association Name="FK__ServiceGr__Servi__32E0915F">
+          <End Role="CommunityService" Type="Self.CommunityService" Multiplicity="0..1" />
+          <End Role="ServiceGrant" Type="Self.ServiceGrant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommunityService">
+              <PropertyRef Name="ServiceKey" />
+            </Principal>
+            <Dependent Role="ServiceGrant">
+              <PropertyRef Name="ServiceKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CommunityAssistEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CommunityServices" EntityType="Self.CommunityService" />
+          <EntitySet Name="ServiceGrants" EntityType="Self.ServiceGrant" />
+          <AssociationSet Name="FK__ServiceGr__Servi__32E0915F" Association="Self.FK__ServiceGr__Servi__32E0915F">
+            <End Role="CommunityService" EntitySet="CommunityServices" />
+            <End Role="ServiceGrant" EntitySet="ServiceGrants" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CommunityAssistModelStoreContainer" CdmEntityContainer="CommunityAssistEntities">
+          <EntitySetMapping Name="CommunityServices">
+            <EntityTypeMapping TypeName="CommunityAssistModel.CommunityService">
+              <MappingFragment StoreEntitySet="CommunityService">
+                <ScalarProperty Name="ServiceKey" ColumnName="ServiceKey" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ServiceDescription" ColumnName="ServiceDescription" />
+                <ScalarProperty Name="ServiceMaximum" ColumnName="ServiceMaximum" />
+                <ScalarProperty Name="ServiceLifetimeMaximum" ColumnName="ServiceLifetimeMaximum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceGrants">
+            <EntityTypeMapping TypeName="CommunityAssistModel.ServiceGrant">
+              <MappingFragment StoreEntitySet="ServiceGrant">
+                <ScalarProperty Name="GrantKey" ColumnName="GrantKey" />
+                <ScalarProperty Name="GrantAmount" ColumnName="GrantAmount" />
+                <ScalarProperty Name="GrantDate" ColumnName="GrantDate" />
+                <ScalarProperty Name="PersonKey" ColumnName="PersonKey" />
+                <ScalarProperty Name="ServiceKey" ColumnName="ServiceKey" />
+                <ScalarProperty Name="EmployeeKey" ColumnName="EmployeeKey" />
+                <ScalarProperty Name="GrantReviewDate" ColumnName="GrantReviewDate" />
+                <ScalarProperty Name="GrantApprovalStatus" ColumnName="GrantApprovalStatus" />
+                <ScalarProperty Name="GrantNeedExplanation" ColumnName="GrantNeedExplanation" />
+                <ScalarProperty Name="GrantAllocation" ColumnName="GrantAllocation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
